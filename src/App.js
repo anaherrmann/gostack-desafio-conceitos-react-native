@@ -28,9 +28,11 @@ export default function App() {
   async function handleLikeRepository(id) {
     const response = await api.post(`repositories/${id}/like`);
 
+    console.log(response.data);
+
     const updatedRepositories = repositories.map(repository => {
       if(repository.id === id){
-        return response;
+        return response.data;
       } else {
         return repository;
       }
@@ -51,7 +53,7 @@ export default function App() {
               <Text style={styles.repository}>{repository.title}</Text>              
               <View style={styles.techsContainer}>
                 {repository.techs.map(tech => (
-                  <Text style={styles.tech} key={tech}>{tech}</Text>)
+                  <Text key={tech} style={styles.tech}>{tech}</Text>)
                 )}
               </View>
 
@@ -61,14 +63,13 @@ export default function App() {
                   // Remember to replace "1" below with repository ID: {`repository-likes-${repository.id}`}
                   testID={`repository-likes-${repository.id}`}
                 >
-                  {repository.likes}
+                  {repository.likes} curtidas
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleLikeRepository(repository.id)}
-                // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
                 testID={`like-button-${repository.id}`}
               >
                 <Text style={styles.buttonText}>Curtir</Text>
